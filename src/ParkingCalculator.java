@@ -40,28 +40,22 @@ public class ParkingCalculator extends Driver {
 //        driver = webDriver;
 //    }
 
-//    public static final String URL = "http://adam.goucher.ca/parkcalc/";
-
-//    public static WebDriver driver;
-//
-//    @Before
-//    public void initiateDriver() {
-//        System.setProperty("webdriver.chrome.driver", "/home/recsouza/Downloads/Drivers/chromedriver");
-//        driver = new ChromeDriver();
-//        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-//    }
-//
-//    @After
-//    public void afterTest() {
-//        driver.quit();
-//    }
-
-    public void setEntryTime(String time) throws Exception{
+    public void setEntryTime(String time, String ampm) throws Exception{
         setElement(ENTRY_TIME, time);
+        if (ampm == "PM") {
+            selectEntryTimeRadioPm();
+        } else {
+            selectEntryTimeRadioAm();
+        }
     }
 
-    public void setLeavingTime(String time) throws Exception{
+    public void setLeavingTime(String time, String ampm) throws Exception{
         setElement(LEAVING_TIME, time);
+        if (ampm == "PM") {
+            selectEntryTimeRadioPm();
+        } else {
+            selectEntryTimeRadioAm();
+        }
     }
 
     public void setEntryDate(String date) throws Exception{
@@ -147,6 +141,15 @@ public class ParkingCalculator extends Driver {
         if (!(element.getText().trim().equals(compareValue))) {
             Assert.fail(compareValue + " " + element);
         }
+    }
+
+    public void calculateParking(String lot, String entryTime, String entryAmpm, String exitTime, String exitAmpm, String entryDate, String exitDate) throws Exception {
+        setLot(lot);
+        setEntryTime(entryTime, entryAmpm);
+        setLeavingTime(exitTime, exitAmpm);
+        setEntryDate(entryDate);
+        setLeavingDate(exitDate);
+        calculate();
     }
 //    public void verificationListAsserts()
 //    {
