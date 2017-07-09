@@ -76,6 +76,26 @@ public class ParkingCalculator extends Driver {
         element.click();
     }
 
+    public String getEntryTime() throws Exception {
+        WebElement element = driver.findElement(ENTRY_TIME);
+        return element.getAttribute("value");
+    }
+
+    public String getLeavingTime() throws Exception {
+        WebElement element = driver.findElement(LEAVING_TIME);
+        return element.getAttribute("value");
+    }
+
+    public String getCost() throws Exception {
+        WebElement element = driver.findElement(COST_VALUE);
+        return element.getText().trim();
+    }
+
+    public String getDaysHoursMinutes() throws Exception {
+        WebElement element = driver.findElement(DAYS_HOURS_MINUTES);
+        return element.getText().trim();
+    }
+
     public void selectLeavingTimeRadioAm() throws Exception {
         WebElement element = driver.findElement(LEAVING_RADIO_BUTTON_AM);
         element.click();
