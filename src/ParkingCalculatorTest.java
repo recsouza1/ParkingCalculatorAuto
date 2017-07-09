@@ -26,8 +26,8 @@ public class ParkingCalculatorTest extends ParkingCalculator{
         String actualCost = getCost();
         String actualDaysHoursMinutes = getDaysHoursMinutes();
 
-        assertEquals(actualCost,expectedCost);
-        assertEquals(actualDaysHoursMinutes,expectedDaysHoursMinutes);
+        assertEquals(expectedCost, actualCost);
+        assertEquals(expectedDaysHoursMinutes, actualDaysHoursMinutes);
     }
 
     @Test
@@ -49,8 +49,8 @@ public class ParkingCalculatorTest extends ParkingCalculator{
         String actualCost = getCost();
         String actualDaysHoursMinutes = getDaysHoursMinutes();
 
-        assertEquals(actualCost,expectedCost);
-        assertEquals(actualDaysHoursMinutes,expectedDaysHoursMinutes);
+        assertEquals(expectedCost, actualCost);
+        assertEquals(expectedDaysHoursMinutes, actualDaysHoursMinutes);
     }
 
     @Test
@@ -74,12 +74,12 @@ public class ParkingCalculatorTest extends ParkingCalculator{
         String actualEntryTime = getEntryTime();
         String actualLeavingTime = getLeavingTime();
 
-        assertEquals(actualCost,expectedCost);
-        assertEquals(actualDaysHoursMinutes,expectedDaysHoursMinutes);
+        assertEquals(expectedCost, actualCost);
+        assertEquals(expectedDaysHoursMinutes, actualDaysHoursMinutes);
 
         //Verify times fields value persistence
-        assertEquals(actualEntryTime,"11:59");
-        assertEquals(actualLeavingTime,"11:59");
+        assertEquals("11:59", actualEntryTime);
+        assertEquals("11:59", actualLeavingTime);
     }
 
     @Test
@@ -98,51 +98,98 @@ public class ParkingCalculatorTest extends ParkingCalculator{
                 currentDate()
         );
 
-        Thread.sleep(5000);
-
         String actualCost = getCost();
         String actualDaysHoursMinutes = getDaysHoursMinutes();
         String actualEntryTime = getEntryTime();
         String actualLeavingTime = getLeavingTime();
 
-        assertEquals(actualCost,expectedCost);
-        assertEquals(actualDaysHoursMinutes,expectedDaysHoursMinutes);
+        assertEquals(expectedCost, actualCost);
+        assertEquals(expectedDaysHoursMinutes, actualDaysHoursMinutes);
 
         //Verify times fields value persistence
-        assertEquals(actualEntryTime,"11:59");
-        assertEquals(actualLeavingTime,"11:59");
+        assertEquals("11:59", actualEntryTime);
+        assertEquals("11:59", actualLeavingTime);
     }
 
     @Test
     public void amTimeFieldsValueAboveTwelve() throws Exception {
+        String expectedMessage = "PLEASE ENTER A VALID TIME";
+
         driver.get(URL);
-        calculateParking("Short-Term Parking", "13:00", "AM", "13:00", "AM", currentDate(), currentDate());
-        verifyElementEquals(MESSAGE, "PLEASE ENTER A VALID TIME");
-        verifyInputEqualsElementValue(ENTRY_TIME, "11:59");
-        verifyInputEqualsElementValue(LEAVING_TIME, "11:59");
+        calculateParking(
+                "Short-Term Parking",
+                "13:00",
+                "AM",
+                "13:00",
+                "AM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
     }
 
     @Test
     public void pmTimeFieldsValueAboveTwelve() throws Exception {
+        String expectedMessage = "PLEASE ENTER A VALID TIME";
+
         driver.get(URL);
-        calculateParking("Short-Term Parking", "13:00", "PM", "13:00", "PM", currentDate(), currentDate());
-        verifyElementEquals(MESSAGE, "PLEASE ENTER A VALID TIME");
-        verifyInputEqualsElementValue(ENTRY_TIME, "11:59");
-        verifyInputEqualsElementValue(LEAVING_TIME, "11:59");
+        calculateParking(
+                "Short-Term Parking",
+                "13:00",
+                "PM",
+                "13:00",
+                "PM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
     }
 
     @Test
     public void leavingBeforeEntryTime() throws Exception {
+        String expectedMessage = "ERROR! YOUR EXIT DATE OR TIME IS BEFORE YOUR ENTRY DATE OR TIME";
+
         driver.get(URL);
-        calculateParking("Short-Term Parking", "05:00", "AM", "01:00", "AM", currentDate(), currentDate());
-        verifyMessageText(MESSAGE, "LEAVING TIME MUST BE AFTER ENTRY TIME");
+        calculateParking(
+                "Short-Term Parking",
+                "05:00",
+                "AM",
+                "01:00",
+                "AM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
     }
 
     @Test
     public void leavingBeforeEntryDate() throws Exception {
+        String expectedMessage = "ERROR! YOUR EXIT DATE OR TIME IS BEFORE YOUR ENTRY DATE OR TIME";
+
         driver.get(URL);
-        calculateParking("Short-Term Parking", "05:00", "AM", "09:00", "AM", futureDate(), currentDate());
-        verifyMessageText(MESSAGE, "LEAVING DATE MUST BE AFTER ENTRY DATE");
+        calculateParking(
+                "Short-Term Parking",
+                "05:00",
+                "AM",
+                "09:00",
+                "AM",
+                futureDate(),
+                currentDate());
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
     }
+
+    
 
 }

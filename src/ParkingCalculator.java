@@ -96,6 +96,11 @@ public class ParkingCalculator extends Driver {
         return element.getText().trim();
     }
 
+    public String getMessage() throws Exception {
+        WebElement element = driver.findElement(MESSAGE);
+        return element.getText().trim();
+    }
+
     public void selectLeavingTimeRadioAm() throws Exception {
         WebElement element = driver.findElement(LEAVING_RADIO_BUTTON_AM);
         element.click();
