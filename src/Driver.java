@@ -13,7 +13,7 @@ public class Driver {
 
     @Before
     public void initiateDriver() {
-        System.setProperty("webdriver.chrome.driver", "/home/recsouza/Downloads/Drivers/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "binaryDriver/chromedriver");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }

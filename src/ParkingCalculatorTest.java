@@ -98,6 +98,8 @@ public class ParkingCalculatorTest extends ParkingCalculator{
                 currentDate()
         );
 
+        Thread.sleep(5000);
+
         String actualCost = getCost();
         String actualDaysHoursMinutes = getDaysHoursMinutes();
         String actualEntryTime = getEntryTime();

@@ -32,9 +32,9 @@ public class ParkingCalculator extends Driver {
     public static final By LEAVING_RADIO_BUTTON_AM = By.xpath(".//*[@name='ExitTimeAMPM' and @value='AM']");
     public static final By LEAVING_RADIO_BUTTON_PM = By.xpath(".//*[@name='ExitTimeAMPM' and @value='PM']");
     public static final By CALCULATE_BUTTON = By.xpath(".//*[@name='Submit' and @value='Calculate']");
-    public static final By COST_VALUE = By.cssSelector("b");
-    public static final By DAYS_HOURS_MINUTES = By.cssSelector("span.BodyCopy > font > b");
-    public static final By MESSAGE = By.cssSelector("b");
+    public static final By COST_VALUE = By.cssSelector("span.SubHead b");
+    public static final By DAYS_HOURS_MINUTES = By.cssSelector("span.BodyCopy b");
+    public static final By MESSAGE = By.cssSelector("span.SubHead b");
 
 //    public ParkingCalculator(WebDriver webDriver) {
 //        driver = webDriver;
@@ -42,7 +42,7 @@ public class ParkingCalculator extends Driver {
 
     public void setEntryTime(String time, String ampm) throws Exception{
         setElement(ENTRY_TIME, time);
-        if (ampm == "PM") {
+        if (ampm.equals("PM")) {
             selectEntryTimeRadioPm();
         } else {
             selectEntryTimeRadioAm();
@@ -51,10 +51,10 @@ public class ParkingCalculator extends Driver {
 
     public void setLeavingTime(String time, String ampm) throws Exception{
         setElement(LEAVING_TIME, time);
-        if (ampm == "PM") {
-            selectEntryTimeRadioPm();
+        if (ampm.equals("PM")) {
+            selectLeavingTimeRadioPm();
         } else {
-            selectEntryTimeRadioAm();
+            selectLeavingTimeRadioAm();
         }
     }
 
