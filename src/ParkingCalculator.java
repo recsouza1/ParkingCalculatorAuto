@@ -18,36 +18,82 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 
-public class ParkingCalculator {
-    public static final String LOT_COMBO_BOX = ".//*[@id='Lot']";
-    public static final String ENTRY_TIME = ".//*[@id='EntryTime']";
-    public static final String LEAVING_TIME = ".//*[@id='ExitTime']";
-    public static final String ENTRY_DATE = ".//*[@id='EntryDate']";
-    public static final String LEAVING_DATE = ".//*[@id='ExitDate']";
-    public static final String ENTRY_RADIO_BUTTON_AM = "html/body/form/table/tbody/tr[2]/td[2]/font/input[2]";
-    public static final String ENTRY_RADIO_BUTTON_PM = "html/body/form/table/tbody/tr[2]/td[2]/font/input[3]";
-    public static final String LEAVING_RADIO_BUTTON_AM = "html/body/form/table/tbody/tr[3]/td[2]/font/input[2]";
-    public static final String LEAVING_RADIO_BUTTON_PM = "html/body/form/table/tbody/tr[3]/td[2]/font/input[3]";
-    public static final String CALCULATE_BUTTON = "html/body/form/input[2]";
-    public static final String COST_VALUE = "html/body/form/table/tbody/tr[4]/td[2]/span[1]/font/b";
-    public static final String DAYS_HOURS_MINUTES = "html/body/form/table/tbody/tr[4]/td[2]/span[2]/font/b";
-    public static final String MESSAGE = "html/body/form/table/tbody/tr[4]/td[2]/span/font/b";
+public class ParkingCalculator extends Driver {
 
+//    private WebDriver driver;
 
-    public static final String URL = "http://adam.goucher.ca/parkcalc/";
+    public static final By LOT_COMBO_BOX = By.id("Lot");
+    public static final By ENTRY_TIME = By.id("EntryTime");
+    public static final By LEAVING_TIME = By.id("ExitTime");
+    public static final By ENTRY_DATE = By.id("EntryDate");
+    public static final By LEAVING_DATE = By.id("ExitDate");
+    public static final By ENTRY_RADIO_BUTTON_AM = By.xpath(".//*[@name='EntryTimeAMPM' and @value='AM']");
+    public static final By ENTRY_RADIO_BUTTON_PM = By.xpath(".//*[@name='EntryTimeAMPM' and @value='PM']");
+    public static final By LEAVING_RADIO_BUTTON_AM = By.xpath(".//*[@name='ExitTimeAMPM' and @value='AM']");
+    public static final By LEAVING_RADIO_BUTTON_PM = By.xpath(".//*[@name='ExitTimeAMPM' and @value='PM']");
+    public static final By CALCULATE_BUTTON = By.xpath(".//*[@name='Submit' and @value='Calculate']");
+    public static final By COST_VALUE = By.cssSelector("b");
+    public static final By DAYS_HOURS_MINUTES = By.cssSelector("span.BodyCopy > font > b");
+    public static final By MESSAGE = By.cssSelector("b");
 
-    public static WebDriver driver;
+//    public ParkingCalculator(WebDriver webDriver) {
+//        driver = webDriver;
+//    }
 
-    @Before
-    public void initiateDriver() {
-        System.setProperty("webdriver.chrome.driver", "/home/recsouza/Downloads/Drivers/chromedriver");
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//    public static final String URL = "http://adam.goucher.ca/parkcalc/";
+
+//    public static WebDriver driver;
+//
+//    @Before
+//    public void initiateDriver() {
+//        System.setProperty("webdriver.chrome.driver", "/home/recsouza/Downloads/Drivers/chromedriver");
+//        driver = new ChromeDriver();
+//        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//    }
+//
+//    @After
+//    public void afterTest() {
+//        driver.quit();
+//    }
+
+    public void setEntryTime(String time) throws Exception{
+        setElement(ENTRY_TIME, time);
     }
 
-    @After
-    public void afterTest() {
-        driver.quit();
+    public void setLeavingTime(String time) throws Exception{
+        setElement(LEAVING_TIME, time);
+    }
+
+    public void setEntryDate(String date) throws Exception{
+        setElement(ENTRY_DATE, date);
+    }
+
+    public void setLeavingDate(String date) throws Exception{
+        setElement(LEAVING_DATE, date);
+    }
+
+    public void selectEntryTimeRadioAm() throws Exception {
+        WebElement element = driver.findElement(ENTRY_RADIO_BUTTON_AM);
+        element.click();
+    }
+
+    public void selectEntryTimeRadioPm() throws Exception {
+        WebElement element = driver.findElement(ENTRY_RADIO_BUTTON_PM);
+        element.click();
+    }
+
+    public void selectLeavingTimeRadioAm() throws Exception {
+        WebElement element = driver.findElement(LEAVING_RADIO_BUTTON_AM);
+        element.click();
+    }
+
+    public void selectLeavingTimeRadioPm() throws Exception {
+        WebElement element = driver.findElement(LEAVING_RADIO_BUTTON_PM);
+        element.click();
+    }
+
+    public void calculate() throws Exception {
+        clickElement(CALCULATE_BUTTON);
     }
 
     public void clickElement (By elementId) throws Exception {
@@ -55,14 +101,14 @@ public class ParkingCalculator {
         element.click();
     }
 
-    public void enterTextToElement(By elementId, String text) throws Exception {
+    public void setElement(By elementId, String text) throws Exception {
         WebElement element = driver.findElement(elementId);
         element.clear();
         element.sendKeys(text);
     }
 
-    public void selectComboLot(String value) throws Exception {
-        WebElement combo = driver.findElement(By.xpath(LOT_COMBO_BOX));
+    public void setLot(String value) throws Exception {
+        WebElement combo = driver.findElement(LOT_COMBO_BOX);
         Select lot = new Select(combo);
         lot.selectByVisibleText(value);
     }
