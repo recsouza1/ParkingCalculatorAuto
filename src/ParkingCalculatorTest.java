@@ -52,6 +52,26 @@ public class ParkingCalculatorTest extends ParkingCalculator{
     }
 
     @Test
+    public void verifyDayChange() throws Exception {
+        String expectedDaysHoursMinutes = "(0 Days, 0 Hours, 1 Minutes)";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "11:59",
+                "PM",
+                "00:00",
+                "AM",
+                "01/01/2020",
+                "01/02/2020"
+        );
+
+        String actualDaysHoursMinutes = getDaysHoursMinutes();
+
+        assertEquals(expectedDaysHoursMinutes, actualDaysHoursMinutes);
+    }
+
+    @Test
     public void amTimeFieldsValueUnderTwelve() throws Exception {
         String expectedCost = "$ 2.00";
         String expectedDaysHoursMinutes = "(0 Days, 0 Hours, 0 Minutes)";
@@ -190,15 +210,15 @@ public class ParkingCalculatorTest extends ParkingCalculator{
     }
 
     @Test
-    public void timeFieldsInvalidInputs() throws Exception {
-        String expectedMessage = "ERROR! ENTER A CORRECTLY FORMATTED TIME";
+    public void alphaCharsInTimeFields() throws Exception {
+        String expectedMessage = "ERROR! ENTER A VALID AND CORRECTLY FORMATTED TIME";
 
         driver.get(URL);
         calculateParking(
                 "Short-Term Parking",
-                "-1abc!@",
+                "ab:cd",
                 "AM",
-                "-1abc!@",
+                "abcd",
                 "AM",
                 currentDate(),
                 currentDate()
@@ -210,8 +230,48 @@ public class ParkingCalculatorTest extends ParkingCalculator{
     }
 
     @Test
-    public void dateFieldsInvalidInputs() throws Exception {
-        String expectedMessage = "ERROR! ENTER A CORRECTLY FORMATTED DATE";
+    public void specialCharsInTimeFields() throws Exception {
+        String expectedMessage = "ERROR! ENTER A VALID AND CORRECTLY FORMATTED TIME";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "!@:#$",
+                "AM",
+                "!@#$",
+                "AM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void negativeNumbersInTimeFields() throws Exception {
+        String expectedMessage = "ERROR! ENTER A VALID AND CORRECTLY FORMATTED TIME";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "-123",
+                "AM",
+                "-123",
+                "AM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void alphaCharsInDateFields() throws Exception {
+        String expectedMessage = "ERROR! ENTER A VALID AND CORRECTLY FORMATTED DATE";
 
         driver.get(URL);
         calculateParking(
@@ -220,8 +280,48 @@ public class ParkingCalculatorTest extends ParkingCalculator{
                 "AM",
                 "05:00",
                 "AM",
-                "-1abc!@",
-                "-1abc!@"
+                "ab/cd/efgh",
+                "abcdefgh"
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void specialCharsInDateFields() throws Exception {
+        String expectedMessage = "ERROR! ENTER A VALID AND CORRECTLY FORMATTED DATE";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "05:00",
+                "AM",
+                "05:00",
+                "AM",
+                "!@/#$/%&()",
+                "!@#$%&*()"
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void negativeNumbersInDateFields() throws Exception {
+        String expectedMessage = "ERROR! ENTER A VALID AND CORRECTLY FORMATTED DATE";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "05:00",
+                "AM",
+                "05:00",
+                "AM",
+                "-123",
+                "-123"
         );
 
         String actualMessage = getMessage();
