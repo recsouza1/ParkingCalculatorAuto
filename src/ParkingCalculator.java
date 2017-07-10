@@ -1,26 +1,13 @@
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 
 public class ParkingCalculator extends Driver {
-
-//    private WebDriver driver;
 
     public static final By LOT_COMBO_BOX = By.id("Lot");
     public static final By ENTRY_TIME = By.id("EntryTime");
@@ -36,9 +23,6 @@ public class ParkingCalculator extends Driver {
     public static final By DAYS_HOURS_MINUTES = By.cssSelector("span.BodyCopy b");
     public static final By MESSAGE = By.cssSelector("span.SubHead b");
 
-//    public ParkingCalculator(WebDriver webDriver) {
-//        driver = webDriver;
-//    }
 
     public void setEntryTime(String time, String ampm) throws Exception{
         setElement(ENTRY_TIME, time);
@@ -146,28 +130,6 @@ public class ParkingCalculator extends Driver {
         return dateFormatted;
     }
 
-    public void verifyElementEquals(By elementId, String compareValue) throws Exception{
-        WebElement element = driver.findElement(elementId);
-        if (!(element.getText().trim().equals(compareValue))) {
-            Assert.fail("Element not found or value is wrong " + element);
-        }
-
-    }
-
-    public void verifyInputEqualsElementValue(By elementId, String compareValue) throws Exception{
-        WebElement element = driver.findElement(elementId);
-        if (!(element.getAttribute("value").equals(compareValue))) {
-            Assert.fail("Element not found or value did not persist " + element);
-        }
-    }
-
-    public void verifyMessageText(By elementId, String compareValue) throws Exception {
-        WebElement element = driver.findElement(elementId);
-        if (!(element.getText().trim().equals(compareValue))) {
-            Assert.fail(compareValue + " " + element);
-        }
-    }
-
     public void calculateParking(String lot, String entryTime, String entryAmpm, String exitTime, String exitAmpm, String entryDate, String exitDate) throws Exception {
         setLot(lot);
         setEntryTime(entryTime, entryAmpm);
@@ -176,13 +138,6 @@ public class ParkingCalculator extends Driver {
         setLeavingDate(exitDate);
         calculate();
     }
-//    public void verificationListAsserts()
-//    {
-//        if(assertsError.size() > 0)
-//        {
-//            Assert.fail(String.valueOf(assertsError));
-//        }
-//    }
 
 
 }

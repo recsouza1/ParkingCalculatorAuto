@@ -1,6 +1,4 @@
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import static org.junit.Assert.assertEquals;
 
@@ -183,13 +181,132 @@ public class ParkingCalculatorTest extends ParkingCalculator{
                 "09:00",
                 "AM",
                 futureDate(),
-                currentDate());
+                currentDate()
+        );
 
         String actualMessage = getMessage();
 
         assertEquals(expectedMessage,actualMessage);
     }
 
-    
+    @Test
+    public void timeFieldsInvalidInputs() throws Exception {
+        String expectedMessage = "ERROR! ENTER A CORRECTLY FORMATTED TIME";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "-1abc!@",
+                "AM",
+                "-1abc!@",
+                "AM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void dateFieldsInvalidInputs() throws Exception {
+        String expectedMessage = "ERROR! ENTER A CORRECTLY FORMATTED DATE";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "05:00",
+                "AM",
+                "05:00",
+                "AM",
+                "-1abc!@",
+                "-1abc!@"
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void dateFieldsWrongDate() throws Exception {
+        String expectedMessage = "ERROR! CHECK YOUR DATE INPUT AND TRY AGAIN";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "05:00",
+                "AM",
+                "05:00",
+                "AM",
+                "80/50/1000",
+                "80/50/1000"
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void emptyTimeFields() throws Exception {
+        String expectedMessage = "ERROR! TIME CAN NOT BE BLANK. ENTER A CORRECTLY FORMATTED TIME";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "",
+                "AM",
+                "",
+                "AM",
+                currentDate(),
+                currentDate()
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void emptyDateFields() throws Exception {
+        String expectedMessage = "ERROR! DATE CAN NOT BE BLANK. ENTER A CORRECTLY FORMATTED DATE";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "11:00",
+                "AM",
+                "11:00",
+                "AM",
+                "",
+                ""
+        );
+
+        String actualMessage = getMessage();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void checkFebruaryDaysAmount() throws Exception {
+        String expectedMessage = "(28 Days, 0 Hours, 0 Minutes)";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "11:00",
+                "AM",
+                "11:00",
+                "AM",
+                "02/01/2017",
+                "03/01/2017"
+        );
+
+        String actualMessage = getDaysHoursMinutes();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
 
 }
