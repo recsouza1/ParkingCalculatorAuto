@@ -409,4 +409,24 @@ public class ParkingCalculatorTest extends ParkingCalculator{
         assertEquals(expectedMessage,actualMessage);
     }
 
+    @Test
+    public void checkLeapYearFebruaryDaysAmount() throws Exception {
+        String expectedMessage = "(29 Days, 0 Hours, 0 Minutes)";
+
+        driver.get(URL);
+        calculateParking(
+                "Short-Term Parking",
+                "11:00",
+                "AM",
+                "11:00",
+                "AM",
+                "02/01/2020",
+                "03/01/2020"
+        );
+
+        String actualMessage = getDaysHoursMinutes();
+
+        assertEquals(expectedMessage,actualMessage);
+    }
+
 }
